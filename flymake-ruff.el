@@ -28,7 +28,7 @@
   :type 'string)
 
 (defcustom flymake-ruff-program-args
-  '("--output-format" "text" "--exit-zero" "--quiet" "-")
+  '("check" "-" "--output-format" "concise" "--exit-zero" "--quiet")
   "Flags to be given to \"ruff\"."
   :group 'flymake-ruff
   :type '(list string))
@@ -59,8 +59,8 @@
                               (expand-file-name f (project-root (project-current))))
                             flymake-ruff--default-configs))))
              (args (if config
-                       (append `("--config" ,config)
-                               flymake-ruff-program-args)
+                       (append flymake-ruff-program-args
+                               `("--config" ,config))
                      flymake-ruff-program-args)))
         ;; call-process-region will run the program and replace current buffer
         ;; with its stdout, that's why we need to run it in a temporary buffer
